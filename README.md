@@ -8,6 +8,15 @@ Ride a haunted skateboard through the underworld, launch from ramps and swing
 your board at airborne enemies. Chain kills to stay in the air, build your combo
 and charge the ghost's powers.
 
+## Screenshots
+
+<p>
+  <img src="docs/screenshots/title.png" alt="Cool Pizza DS title screen" width="256" />
+  <img src="docs/screenshots/gameplay.png" alt="Cool Pizza DS airborne combat with an air combo" width="256" />
+</p>
+
+Captured in melonDS from the release ROM.
+
 ## Features
 
 - Original 42-wave progression, with an extra tutorial on the first three runs.
@@ -17,6 +26,8 @@ and charge the ghost's powers.
 - Touchscreen attacks, D-pad steering and local high scores.
 
 ## Play
+
+Download [coolpizza.nds from the latest release](https://github.com/nextcode4u/Cool-Pizza-NDS-/releases/latest/download/coolpizza.nds).
 
 Open `coolpizza.nds` in melonDS using standard DS mode and direct boot, or load
 it through a DS homebrew flashcart. Music and effects are embedded in the ROM.
