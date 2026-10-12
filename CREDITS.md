@@ -44,5 +44,7 @@ implements the DS runtime in C and prepares its assets from version 1.4.
 ## Original assets
 
 Original game assets retain the rights and attribution of their creators.
-They are not included in the source repository. Building the ROM requires local
-asset preparation as described in [the build guide](docs/build.md).
+The repository includes the prepared graphics, game data and audio needed to
+build the DS ROM. These files come from Cool Pizza 1.4 and remain credited to
+Secret Library, Matthew Marchini, Tettix and the original development team.
+See [the build guide](docs/build.md) for their file locations.

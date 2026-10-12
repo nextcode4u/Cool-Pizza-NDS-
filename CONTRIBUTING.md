@@ -5,7 +5,8 @@ visual style. Original game credits belong in [CREDITS.md](CREDITS.md).
 
 ## Development
 
-Prepare local assets and install the SDK using [the build guide](docs/build.md).
+Install the SDK using [the build guide](docs/build.md). Prepared assets are
+included in the repository.
 For gameplay or rendering changes:
 
 ```sh
@@ -14,7 +15,8 @@ make -f Makefile.host test
 ```
 
 Use the existing C style and keep generated data changes in the asset preparation
-scripts. `source/original_data.c` and `nitro/` are regenerated locally.
+scripts. Commit updated `source/original_data.c` and `nitro/audio/` outputs
+when changing asset conversion so a fresh clone remains buildable.
 
 ## Bug reports
 
@@ -24,5 +26,6 @@ For behavior differences, include a reference to the original game when possible
 
 ## Pull requests
 
-Describe the resulting behavior and the checks run. Keep game assets, IPA files,
-audio, BIOS/firmware, emulator bundles and build outputs out of pull requests.
+Describe the resulting behavior and the checks run. Keep original IPA archives,
+BIOS/firmware, emulator bundles, temporary recovery files and ROM build outputs
+out of pull requests.

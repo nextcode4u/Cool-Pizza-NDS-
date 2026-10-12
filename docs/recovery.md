@@ -14,7 +14,9 @@ serialization version 9. The app's bundle identifier is
 | `compile_original.py` | Builds C tables for sprites, fonts, animation, paths, waves and enemy properties |
 | `prepare_audio.py` | Converts IPA music/effects to DS PCM files |
 
-See [building](build.md) for commands and dependencies.
+The prepared outputs are already included in the repository. This pipeline is
+needed only when regenerating them from an IPA. See [building](build.md) for
+commands and dependencies.
 
 ## Source data
 
@@ -66,4 +68,6 @@ loading every effect into DS memory at startup.
 `recovered/` contains archive hashes, object inventories, decoded script records,
 IL listings, sprite crops and conversion manifests. `port-audit.json` describes
 compiled scene data; `ds-audio.json` lists converted audio files.
-These files are local build inputs and are excluded from the source repository.
+Intermediate recovery files are excluded from the repository. The final
+`source/original_data.c` and `nitro/audio/*.pcm` outputs are committed so the
+ROM can be built without running the recovery tools.

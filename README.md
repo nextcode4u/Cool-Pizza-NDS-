@@ -39,18 +39,20 @@ storage is available; otherwise they are kept for the current session.
 
 ## Build
 
-Original game assets are prepared locally from a Cool Pizza 1.4 IPA. The repository
-contains the DS source and conversion tools; game assets, BIOS files and ROM
-builds are excluded.
-
-See [the build guide](docs/build.md) for asset preparation and dependencies.
-With assets prepared and devkitPro installed:
+The repository includes the prepared graphics, game data, music and effects.
+Install devkitPro's Nintendo DS development tools, then build directly from a
+fresh clone:
 
 ```sh
+git clone https://github.com/nextcode4u/Cool-Pizza-NDS-.git
+cd Cool-Pizza-NDS-
 export DEVKITPRO=/opt/devkitpro
 export DEVKITARM="$DEVKITPRO/devkitARM"
 make -j2
 ```
+
+See [the build guide](docs/build.md) for dependencies and optional asset
+regeneration. An IPA, soundtrack download or emulator is not needed to build.
 
 Output: `coolpizza.nds`.
 
