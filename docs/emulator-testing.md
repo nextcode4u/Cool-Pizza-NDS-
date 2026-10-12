@@ -1,5 +1,19 @@
 # Testing
 
+## Android setup
+
+For **melonDS Android 2.0.2**, use these settings:
+
+| Setting | Value |
+| --- | --- |
+| Console | DS |
+| Show boot screen | Off / direct boot |
+| JIT | Off |
+
+JIT-enabled startup can cause a black screen or close the emulator. Disabling
+JIT resolves the reported crash. This workaround does not require a DLDI patch
+or switching to DSi mode. Try Software rendering if display issues remain.
+
 ## Host tests
 
 A C compiler with AddressSanitizer and UBSan support is required.

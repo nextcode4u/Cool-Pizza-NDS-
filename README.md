@@ -32,6 +32,15 @@ Download [coolpizza.nds from the latest release](https://github.com/nextcode4u/C
 Open `coolpizza.nds` in melonDS using standard DS mode and direct boot, or load
 it through a DS homebrew flashcart. Music and effects are embedded in the ROM.
 
+### melonDS Android
+
+On **melonDS Android 2.0.2**, turn **JIT off** in the emulator settings before
+launching. JIT-enabled startup can produce a black screen or crash; disabling
+JIT resolves the reported startup issue. Use **DS mode** with **Show boot screen
+off** (direct boot).
+
+### Controls
+
 | Control | Action |
 | --- | --- |
 | D-pad Left / Right | Steer |
