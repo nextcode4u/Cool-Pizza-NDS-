@@ -36,6 +36,9 @@ render. Attack states control projectiles and timed damage areas.
 Collision-entry tracking records the difference between entering an attack area
 and remaining inside it. Shield consumption uses the same contact tracking.
 
+Fly figure-eight motion and sweeper hover share the current simulation time.
+Each type samples its hover once per tick and reuses it across active enemies.
+
 ## Audio and storage
 
 Music streams from NitroFS through maxmod. Mono effects are loaded into a cache

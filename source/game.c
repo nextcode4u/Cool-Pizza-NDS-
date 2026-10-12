@@ -303,7 +303,12 @@ static void enemy_motion(Enemy *e, float time, int id) {
   e->sy = c->psy * ((flags & 2) ? m.sy : c->sy);
   e->angle = m.angle;
 }
-static void update_enemy(Game *g, Enemy *e) {
+/* Hover phase is shared by each enemy type; sample it once per tick. */
+typedef struct {
+  unsigned ready;
+  float fly_x, fly_y, sweep_x, sweep_y;
+} HoverMotion;
+static void update_enemy(Game *g, Enemy *e, HoverMotion *hover) {
   const EnemyConfig *c = &original_enemies[e->config];
   e->clip_tick++;
   if (e->hurt)
@@ -321,14 +326,24 @@ static void update_enemy(Game *g, Enemy *e) {
   enemy_motion(e, e->time * speed, id);
   if (c->kind == 0) {
     /* CoinMonster.IdleAnimation: the original figure-eight hover. */
-    float t = g->frame * DT * 5, s = sinf(t),
-          x = .141421356f * cosf(t) / (s * s + 1);
-    e->x += x;
-    e->y += x * s;
+    if (!(hover->ready & 1)) {
+      float t = g->frame * DT * 5, s = sinf(t);
+      hover->fly_x = .141421356f * cosf(t) / (s * s + 1);
+      hover->fly_y = hover->fly_x * s;
+      hover->ready |= 1;
+    }
+    e->x += hover->fly_x;
+    e->y += hover->fly_y;
   }
   if (c->kind == 2) {
-    e->x += cosf(g->frame * DT * 2) / 10;
-    e->y += sinf(g->frame * DT * 2) / 10;
+    if (!(hover->ready & 2)) {
+      float t = g->frame * DT * 2;
+      hover->sweep_x = cosf(t) / 10;
+      hover->sweep_y = sinf(t) / 10;
+      hover->ready |= 2;
+    }
+    e->x += hover->sweep_x;
+    e->y += hover->sweep_y;
   }
   if (e->stage == 0 && (id < 0 || e->time >= original_motions[id].duration)) {
     e->stage = 1;
@@ -577,11 +592,12 @@ void game_step(Game *g, Input in) {
   g->camera_y = approach(g->camera_y, game_can_attack(g) ? g->y : 0, 4 * DT);
   const WaveConfig *w = &original_waves[g->wave_id];
   int entering = 0, alive = 0;
+  HoverMotion hover = {0};
   for (int i = 0; i < MAX_ENEMIES; i++) {
     Enemy *e = &g->enemies[i];
     if (!e->active)
       continue;
-    update_enemy(g, e);
+    update_enemy(g, e, &hover);
     if (e->active && e->stage != 3)
       alive++;
     if (e->active && e->stage == 0)
