@@ -1,0 +1,81 @@
+# Local game assets and tools
+/Downloads/
+/downloads/
+/recovered/
+/nitro/
+/tools/.local/
+/emulators/
+/melonDS*/
+/source/original_data.c
+
+# Downloaded archives
+*.ipa
+*.zip
+*.7z
+*.rar
+*.tar
+*.tar.gz
+*.tgz
+*.tar.xz
+
+# Build products and saves
+/build/
+/dist/
+/out/
+*.o
+*.a
+*.elf
+*.nds
+*.srl
+*.map
+*.lst
+*.exe
+*.dll
+*.so
+*.AppImage
+*.stats
+*.stats.tmp
+*.sav
+*.sav.bak
+*.dsv
+*.ml[0-9]
+
+# Local DS system files
+/bios*.bin
+/dsfirmware.bin
+/firmware.bin
+/nand.bin
+/dsi_nand.bin
+/dsisd.bin
+
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Temporary files and diagnostics
+/tmp/
+/temp/
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+
+# Local settings and OS files
+.env
+.env.*
+!.env.example
+.idea/
+.vs/
+*.code-workspace
+.DS_Store
+Thumbs.db
+Desktop.ini

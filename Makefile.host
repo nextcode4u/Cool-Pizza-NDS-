@@ -1,0 +1,22 @@
+CC = cc
+HOST_FLAGS = -std=c11 -Wall -Wextra -Werror -g -Iinclude
+
+.PHONY: test preview layout
+test:
+	mkdir -p build
+	$(CC) $(HOST_FLAGS) -fsanitize=address,undefined source/game.c source/render.c source/original_data.c tests/core_test.c -lm -o build/core_test
+	./build/core_test
+
+preview:
+	mkdir -p build
+	$(CC) $(HOST_FLAGS) source/game.c source/render.c source/original_data.c tools/preview.c -lm -o build/preview
+	./build/preview
+
+layout: build/game-layout.json
+
+build/layout: tools/layout.c include/game.h include/original.h
+	mkdir -p build
+	$(CC) $(HOST_FLAGS) tools/layout.c -o $@
+
+build/game-layout.json: build/layout
+	./build/layout > $@
