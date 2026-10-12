@@ -115,6 +115,53 @@ static void text(int x, int y, const char *value, uint16_t color, int scale) {
     x += glyph->advance * scale;
   }
 }
+/* Compact DS interface font. Keep the recovered display font for original art. */
+static const unsigned char ui_glyphs[][7] = {
+  {14,17,19,21,25,17,14}, /* 0 */
+  {4,12,4,4,4,4,14}, {14,17,1,2,4,8,31},
+  {30,1,1,14,1,1,30}, {2,6,10,18,31,2,2},
+  {31,16,16,30,1,1,30}, {14,16,16,30,17,17,14},
+  {31,1,2,4,8,8,8}, {14,17,17,14,17,17,14},
+  {14,17,17,15,1,1,14},
+  {14,17,17,31,17,17,17}, /* A */
+  {30,17,17,30,17,17,30}, {14,17,16,16,16,17,14},
+  {30,17,17,17,17,17,30}, {31,16,16,30,16,16,31},
+  {31,16,16,30,16,16,16}, {14,17,16,23,17,17,15},
+  {17,17,17,31,17,17,17}, {14,4,4,4,4,4,14},
+  {7,2,2,2,2,18,12}, {17,18,20,24,20,18,17},
+  {16,16,16,16,16,16,31}, {17,27,21,21,17,17,17},
+  {17,25,21,19,17,17,17}, {14,17,17,17,17,17,14},
+  {30,17,17,30,16,16,16}, {14,17,17,17,21,18,13},
+  {30,17,17,30,20,18,17}, {15,16,16,14,1,1,30},
+  {31,4,4,4,4,4,4}, {17,17,17,17,17,17,14},
+  {17,17,17,17,17,10,4}, {17,17,17,21,21,21,10},
+  {17,17,10,4,10,17,17}, {17,17,10,4,4,4,4},
+  {31,1,2,4,8,16,31},
+  {0,4,4,0,4,4,0}, /* : */
+  {1,2,2,4,8,8,16}, /* / */
+  {0,0,0,31,0,0,0}, /* - */
+  {0,4,4,31,4,4,0}  /* + */
+};
+static void ui_text(int x, int y, const char *value, uint16_t color, int scale) {
+  for (; *value; value++, x += 6 * scale) {
+    int ch = (unsigned char)*value, index = -1;
+    if (ch >= '0' && ch <= '9') index = ch - '0';
+    else if (ch >= 'A' && ch <= 'Z') index = ch - 'A' + 10;
+    else if (ch == ':') index = 36;
+    else if (ch == '/') index = 37;
+    else if (ch == '-') index = 38;
+    else if (ch == '+') index = 39;
+    if (index < 0) continue;
+    for (int row = 0; row < 7; row++)
+      for (int col = 0; col < 5; col++)
+        if (ui_glyphs[index][row] & (16 >> col))
+          box(x + col * scale, y + row * scale, scale, scale, color);
+  }
+}
+static void ui_center(int y, const char *value, uint16_t color, int scale) {
+  int width = ((int)strlen(value) * 6 - 1) * scale;
+  ui_text((256 - width) / 2, y, value, color, scale);
+}
 static void ui_sprite(int id, int x, int y, int w, int h) {
   sprite_at(id, x, y, w, h, 0, 0, 0);
 }
@@ -235,7 +282,7 @@ void game_render(const Game *g, unsigned short *pixels) {
   bottom = 192;
   char buf[32];
   snprintf(buf, sizeof buf, "SCORE: %d", g->score);
-  text(2, 2, buf, WHITE, 1);
+  ui_text(2, 2, buf, WHITE, 1);
   if (g->combo > 1) {
     snprintf(buf, sizeof buf, "AIR COMBO X%d", g->combo);
     text(140, 14, buf, PINK, 1);
@@ -262,42 +309,54 @@ void game_render_bottom(const Game *g, unsigned short *pixels) {
   bottom = 192;
   for (int i = 0; i < 256 * 192; i++)
     fb[i] = BLACK;
-  text(15, 14, "COOL PIZZA", PINK, 3);
+  ui_center(8, "COOL PIZZA", PINK, 2);
+
   if (g->phase == INTRO) {
-    text(77, 124, "A / TAP: NEXT", WHITE, 1);
+    ui_center(124, "A / TAP: NEXT", WHITE, 1);
     return;
   }
   if (g->phase == TITLE) {
-    text(25, 59, "START / TAP TO PLAY", WHITE, 1);
-    text(25, 78, "X: SCORES", LIME, 1);
-    text(25, 112, "LEFT / RIGHT: STEER", WHITE, 1);
-    text(25, 128, "A / TAP: ATTACK", WHITE, 1);
-    text(25, 144, "Y: GHOST POWER", LIME, 1);
-    text(25, 170, "SECRET LIBRARY / TETTIX", WHITE, 1);
+    ui_center(59, "START / TAP TO PLAY", WHITE, 1);
+    ui_center(78, "X: SCORES", LIME, 1);
+    ui_center(112, "LEFT / RIGHT: STEER", WHITE, 1);
+    ui_center(128, "A / TAP: ATTACK", WHITE, 1);
+    ui_center(144, "Y: GHOST POWER", LIME, 1);
+    ui_center(174, "SECRET LIBRARY / TETTIX", WHITE, 1);
     return;
   }
   char buf[40];
+  ui_center(40, g->phase == SCORES ? "BEST SCORE" : "SCORE", WHITE, 1);
+  snprintf(buf, sizeof buf, "%d", g->phase == SCORES ? g->best : g->score);
+  ui_center(54, buf, WHITE, 2);
+  if (g->phase == SCORES) {
+    snprintf(buf, sizeof buf, "LAST: %d", g->score);
+    ui_center(94, buf, LIME, 1);
+    ui_center(148, "B: BACK", WHITE, 1);
+    return;
+  }
   snprintf(buf, sizeof buf, "WAVE %d / %d", g->wave, g->wave_count);
-  text(32, 58, buf, LIME, 2);
-  snprintf(buf, sizeof buf, "SCORE: %d", g->score);
-  text(32, 83, buf, WHITE, 1);
+  ui_center(82, buf, LIME, 1);
   snprintf(buf, sizeof buf, "BEST: %d", g->best);
-  text(32, 96, buf, WHITE, 1);
+  ui_center(96, buf, WHITE, 1);
   if (g->phase == DEAD || g->phase == FINISHED) {
-    text(32, 126, "A / TAP: AGAIN", PINK, 1);
-    text(32, 148, "B: MENU", WHITE, 1);
+    ui_center(126, "A / TAP: AGAIN", PINK, 1);
+    ui_center(148, "B: MENU", WHITE, 1);
   } else {
-    if (g->power && !g->power_time) {
-      box(35, 111, 186, 44, WHITE);
-      box(37, 113, 182, 40, BLACK);
-      const Sprite *s = &original_sprites[art_power[g->power - 1]];
-      ui_sprite(art_power[g->power - 1], (256 - s->width) / 2, 117, s->width,
-                s->height);
-      text(86, 145, "Y / TAP", LIME, 1);
+    if (g->phase == PAUSED) {
+      ui_center(120, "PAUSED", PINK, 2);
+      ui_center(145, "START: RESUME", WHITE, 1);
+    } else if (g->power && !g->power_time) {
+      /* Keep the entire button inside the touch target at y=110..155. */
+      static const char *const power_names[] = {"JUMP", "SHOT", "NUKE", "SHIELD"};
+      box(35, 110, 186, 46, WHITE);
+      box(37, 112, 182, 42, BLACK);
+      ui_center(117, "GHOST POWER", WHITE, 1);
+      snprintf(buf, sizeof buf, "Y / TAP: %s", power_names[g->power - 1]);
+      ui_center(132, buf, LIME, 2);
     } else {
-      text(44, 120, "KEEP YOUR COMBO IN THE AIR", PINK, 1);
-      text(61, 140, "A / TAP TO STRIKE", WHITE, 1);
+      ui_center(120, "KEEP YOUR COMBO IN THE AIR", PINK, 1);
+      ui_center(140, "A / TAP TO STRIKE", WHITE, 1);
     }
-    text(20, 170, "START: PAUSE   B: MENU", WHITE, 1);
+    ui_center(174, "START: PAUSE   B: MENU", WHITE, 1);
   }
 }
