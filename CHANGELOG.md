@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.1.2
+
+- Use the original iOS app icon for the DS cartridge banner.
+- Include the prepared banner and icon conversion tool in the repository.
+
 ## v0.1.1
 
 - Reuse shared fly and sweeper hover calculations once per simulation tick,

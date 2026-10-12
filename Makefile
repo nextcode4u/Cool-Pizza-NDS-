@@ -25,6 +25,7 @@ LIBDIRS  := $(LIBNDS) $(PORTLIBS)
 
 ifneq ($(BUILD),$(notdir $(CURDIR)))
 export OUTPUT := $(CURDIR)/$(TARGET)
+export GAME_ICON := $(CURDIR)/assets/icon.bmp
 export VPATH := $(foreach dir,$(SOURCES),$(CURDIR)/$(dir))
 export DEPSDIR := $(CURDIR)/$(BUILD)
 export NITRO_FILES := $(CURDIR)/$(NITRO)
@@ -45,7 +46,7 @@ clean:
 	@rm -rf $(BUILD) $(TARGET).elf $(TARGET).nds
 else
 # Changes to embedded audio must also trigger ROM repacking.
-$(OUTPUT).nds: $(OUTPUT).elf $(shell find $(NITRO_FILES) -type f)
+$(OUTPUT).nds: $(OUTPUT).elf $(GAME_ICON) $(shell find $(NITRO_FILES) -type f)
 $(OUTPUT).elf: $(OFILES)
 -include $(DEPSDIR)/*.d
 endif

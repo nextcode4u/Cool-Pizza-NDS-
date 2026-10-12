@@ -61,6 +61,7 @@ python3 -m venv .venv
 .venv/bin/python tools/prepare_art.py
 .venv/bin/python tools/compile_original.py
 .venv/bin/python tools/prepare_audio.py
+.venv/bin/python tools/prepare_icon.py
 ```
 
 Run these commands from the repository root. Changes to conversion scripts
@@ -72,6 +73,7 @@ should include their regenerated C and PCM outputs.
 | --- | --- |
 | `source/`, `include/` | Runtime code, interfaces and prepared graphics/game data |
 | `nitro/audio/` | Prepared music and effects embedded in the ROM |
+| `assets/` | Original iOS app icon and prepared DS cartridge banner |
 | `tests/` | Host-side simulation tests |
 | `tools/` | Optional asset preparation and test utilities |
 | `docs/` | Project documentation |

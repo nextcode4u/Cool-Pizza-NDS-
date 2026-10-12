@@ -13,6 +13,7 @@ serialization version 9. The app's bundle identifier is
 | `prepare_art.py` | Reconstructs named sprites from atlas UVs and quad geometry |
 | `compile_original.py` | Builds C tables for sprites, fonts, animation, paths, waves and enemy properties |
 | `prepare_audio.py` | Converts IPA music/effects to DS PCM files |
+| `prepare_icon.py` | Converts the primary iOS app icon to a DS banner bitmap |
 
 The prepared outputs are already included in the repository. This pipeline is
 needed only when regenerating them from an IPA. See [building](build.md) for
@@ -46,6 +47,12 @@ from the Unity font atlas.
 
 Motion curves are sampled at 60 Hz using Hermite interpolation. Paths are
 sampled into 241-point tables. Clip tables preserve frame rate and wrap mode.
+
+## Cartridge icon
+
+`assets/ios-icon.png` is the original version 1.4 primary iOS icon, decoded from
+its Apple CgBI PNG format. `assets/icon.bmp` is the 32×32, 16-color DS version
+used by the ROM banner. Both files are included in the repository.
 
 ## Audio
 

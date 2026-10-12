@@ -23,6 +23,7 @@ Captured in melonDS from the release ROM.
 - Bombing eyes, tracking sweepers, striking hands, flies and pyramids.
 - Air combos and jump, shot, nuke and shield powers.
 - Original soundtrack, sound effects, sprites and Blackout Midnight font.
+- Original iOS app icon in the DS cartridge menu.
 - Touchscreen attacks, D-pad steering and local high scores.
 
 ## Play
