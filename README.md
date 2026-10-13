@@ -17,6 +17,12 @@ and charge the ghost's powers.
 
 Captured in melonDS from the release ROM.
 
+## Video
+
+[![Watch Cool Pizza on YouTube](https://img.youtube.com/vi/6kZyAl-t4V4/hqdefault.jpg)](https://youtu.be/6kZyAl-t4V4?t=110)
+
+[Watch on YouTube from 1:50](https://youtu.be/6kZyAl-t4V4?t=110).
+
 ## Features
 
 - Original 42-wave progression, with an extra tutorial on the first three runs.
